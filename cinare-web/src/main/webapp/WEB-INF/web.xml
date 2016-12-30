@@ -27,7 +27,8 @@
         <init-param>
             <param-name>jersey.config.server.provider.packages</param-name>
             <param-value>
-                com.cinare.controller
+                com.cinare.controller,
+                com.cinare.provider
             </param-value>
         </init-param>
 
