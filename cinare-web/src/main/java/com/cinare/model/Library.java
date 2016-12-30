@@ -1,4 +1,5 @@
 package com.cinare.model;
+
 public class Library {
 
     private String name;
@@ -6,6 +7,10 @@ public class Library {
 
     public boolean someLibraryMethod() {
         return true;
+    }
+
+    public String someLibraryMethodString() {
+        return "Ball";
     }
 
     public String getName() {
