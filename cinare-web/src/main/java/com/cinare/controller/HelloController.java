@@ -11,19 +11,26 @@ import javax.ws.rs.core.Response;
 @Path("/hello")
 public class HelloController {
 
+
+
     @GET
     @Path("/jair")
     public Response hello() {
-        return Response.ok("Hello Jair").build();
+        return Response.ok("Hello Belo Jair dhuwduqwihduiw").build();
+    }
+
+    @GET
+    @Path("/jair2")
+    public Response hello2() {
+        return Response.ok("Hello Belo Jair").build();
     }
 
     @GET
     @Path("/jairson")
     @Produces(MediaType.APPLICATION_JSON)
     public Library jairToJson() {
-
         Library jair = new Library();
-        jair.setAge("300");
+        jair.setAge("300123");
         jair.setName("Luiz");
 
         return jair;

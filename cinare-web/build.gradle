@@ -1,10 +1,7 @@
-apply plugin: 'java'
 apply plugin: 'war'
 apply plugin: 'appengine'
 
-repositories {
-    mavenCentral()
-}
+description = 'cinare-web'
 
 buildscript {
     repositories {
@@ -24,9 +21,6 @@ appengine {
     }
 }
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
-
 dependencies {
     testCompile 'junit:junit:4.12'
     compile 'javax.ws.rs:javax.ws.rs-api:2.0.1'
@@ -36,6 +30,8 @@ dependencies {
     compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet', version: '2.23.1'
     testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
     appengineSdk 'com.google.appengine:appengine-java-sdk:1.9.48'
+    compile group: 'com.google.appengine', name: 'appengine-api-stubs', version: '1.9.48'
+    compile 'com.google.appengine:appengine-endpoints:1.9.48'
     testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.6.1'
 }
