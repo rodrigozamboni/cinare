@@ -1,9 +1,6 @@
 package com.cinare.repository;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.*;
 
 import java.util.Date;
 
@@ -19,4 +16,9 @@ public class HelloRepository {
         jair.setProperty("attendedHrTraining", true);
         return datastore.put(jair);
     }
+
+    public Entity getEntity(Key key) throws EntityNotFoundException {
+        return datastore.get(key);
+    }
+
 }
