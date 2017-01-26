@@ -17,8 +17,8 @@ public class HelloRepository {
         return datastore.put(jair);
     }
 
-    public void update(Entity ent) {
-        datastore.put(ent);
+    public Key update(Entity ent) {
+        return datastore.put(ent);
     }
 
     public void delete(Key key) {
@@ -31,6 +31,10 @@ public class HelloRepository {
         } catch (EntityNotFoundException ex) {
             return null;
         }
+    }
+
+    public Entity getEntityException(Key key) throws EntityNotFoundException {
+        return datastore.get(key);
     }
 
 }

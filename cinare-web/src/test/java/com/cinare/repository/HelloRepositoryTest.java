@@ -1,6 +1,7 @@
 package com.cinare.repository;
 
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
@@ -60,9 +61,9 @@ public class HelloRepositoryTest {
         Entity jair = hello.getEntity(key);
         jair.setProperty("firstName", "JAIR UPDATE");
 
-        hello.update(jair);
+        key = hello.update(jair);
 
-        jair = hello.getEntity(jair.getKey());
+        jair = hello.getEntity(key);
         assertThat(jair.getProperty("firstName")).isEqualTo("JAIR UPDATE");
     }
 
@@ -72,7 +73,17 @@ public class HelloRepositoryTest {
         Key key = hello.createNewEntity();
         hello.delete(key);
 
-        Entity jair =  hello.getEntity(key);
+        Entity jair = hello.getEntity(key);
+        assertThat(jair).isNull();
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void testDeleteException() throws EntityNotFoundException {
+        HelloRepository hello = new HelloRepository();
+        Key key = hello.createNewEntity();
+        hello.delete(key);
+
+        Entity jair = hello.getEntityException(key);
         assertThat(jair).isNull();
     }
 }
