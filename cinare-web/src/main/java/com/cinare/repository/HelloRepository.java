@@ -30,8 +30,8 @@ public class HelloRepository {
         return datastore.put(jair);
     }
 
-    public void update(Entity ent) {
-        datastore.put(ent);
+    public Key update(Entity ent) {
+        return datastore.put(ent);
     }
 
     public void delete(Key key) {
@@ -46,6 +46,7 @@ public class HelloRepository {
         }
     }
 
+<<<<<<< HEAD
     public List<Entity> findByName(String nome) {
         Query q = new Query("Employee").setFilter(new Query.FilterPredicate("firstName", Query.FilterOperator.EQUAL, nome));
         PreparedQuery pq = datastore.prepare(q);
@@ -63,4 +64,10 @@ public class HelloRepository {
         PreparedQuery pq = datastore.prepare(q);
         return pq.asList(FetchOptions.Builder.withDefaults());
     }
+=======
+    public Entity getEntityException(Key key) throws EntityNotFoundException {
+        return datastore.get(key);
+    }
+
+>>>>>>> d89f4e5d59c5590c6be9ad1086cd06966819cb5a
 }

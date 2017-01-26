@@ -11,18 +11,10 @@ import javax.ws.rs.core.Response;
 @Path("/hello")
 public class HelloController {
 
-
-
     @GET
     @Path("/jair")
     public Response hello() {
         return Response.ok("Hello Belo Jair dhuwduqwihduiw").build();
-    }
-
-    @GET
-    @Path("/jair2")
-    public Response hello2() {
-        return Response.ok("Hello Belo Jair").build();
     }
 
     @GET
