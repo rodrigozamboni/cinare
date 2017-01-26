@@ -46,7 +46,6 @@ public class HelloRepository {
         }
     }
 
-<<<<<<< HEAD
     public List<Entity> findByName(String nome) {
         Query q = new Query("Employee").setFilter(new Query.FilterPredicate("firstName", Query.FilterOperator.EQUAL, nome));
         PreparedQuery pq = datastore.prepare(q);
