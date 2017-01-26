@@ -67,4 +67,14 @@ public class HelloRepository {
     public Entity getEntityException(Key key) throws EntityNotFoundException {
         return datastore.get(key);
     }
+
+    public QueryResultList<Entity> list(Cursor cursor) {
+        Query q = new Query("Employee").addSort("age", Query.SortDirection.ASCENDING);
+        PreparedQuery pq = datastore.prepare(q);
+        FetchOptions fetchOptions = FetchOptions.Builder.withChunkSize(1).limit(1);
+        if (cursor != null) {
+            fetchOptions.startCursor(cursor);
+        }
+        return pq.asQueryResultList(fetchOptions);
+    }
 }

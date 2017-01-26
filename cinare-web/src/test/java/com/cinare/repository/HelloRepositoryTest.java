@@ -1,9 +1,6 @@
 package com.cinare.repository;
 
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.*;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import org.junit.After;
@@ -112,5 +109,34 @@ public class HelloRepositoryTest {
         List<Entity> jairs = hello.findByNameAndMajority("Jair");
         assertThat(jairs).isNotNull();
         assertThat(jairs.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void testBuscarPaginado() {
+        HelloRepository hello = new HelloRepository();
+        hello.createNewEntity("Jair", "Bolsonaro", 50);
+        hello.createNewEntity("Pedro", "Bolsonaro", 20);
+        hello.createNewEntity("Luiz", "Veio", 30);
+        hello.createNewEntity("Juca", "Plagtzimov", 16);
+
+        QueryResultList<Entity> lista = hello.list(null);
+        assertThat(lista).isNotNull();
+        assertThat(lista.size()).isEqualTo(1);
+        assertThat(lista.get(0).getProperty("firstName")).isEqualTo("Juca");
+
+        lista = hello.list(lista.getCursor());
+        assertThat(lista).isNotNull();
+        assertThat(lista.size()).isEqualTo(1);
+        assertThat(lista.get(0).getProperty("firstName")).isEqualTo("Pedro");
+
+        lista = hello.list(lista.getCursor());
+        assertThat(lista).isNotNull();
+        assertThat(lista.size()).isEqualTo(1);
+        assertThat(lista.get(0).getProperty("firstName")).isEqualTo("Luiz");
+
+        lista = hello.list(lista.getCursor());
+        assertThat(lista).isNotNull();
+        assertThat(lista.size()).isEqualTo(1);
+        assertThat(lista.get(0).getProperty("firstName")).isEqualTo("Jair");
     }
 }
