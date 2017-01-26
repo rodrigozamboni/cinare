@@ -1,7 +1,6 @@
 package com.cinare.repository;
 
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
@@ -39,7 +38,7 @@ public class HelloRepositoryTest {
     }
 
     @Test
-    public void testGetEntity() throws EntityNotFoundException {
+    public void testGetEntity() {
         HelloRepository hello = new HelloRepository();
         Key key = hello.createNewEntity();
 
@@ -47,10 +46,33 @@ public class HelloRepositoryTest {
         assertThat(jair).isNotNull();
         assertThat(jair.getProperty("firstName")).isEqualTo("Antonio");
 
-
         key = KeyFactory.createKey("Employee", 1);
         jair = hello.getEntity(key);
         assertThat(jair).isNotNull();
         assertThat(jair.getProperty("firstName")).isEqualTo("Antonio");
+    }
+
+    @Test
+    public void testUpdate() {
+        HelloRepository hello = new HelloRepository();
+        Key key = hello.createNewEntity();
+
+        Entity jair = hello.getEntity(key);
+        jair.setProperty("firstName", "JAIR UPDATE");
+
+        hello.update(jair);
+
+        jair = hello.getEntity(jair.getKey());
+        assertThat(jair.getProperty("firstName")).isEqualTo("JAIR UPDATE");
+    }
+
+    @Test
+    public void testDelete() {
+        HelloRepository hello = new HelloRepository();
+        Key key = hello.createNewEntity();
+        hello.delete(key);
+
+        Entity jair =  hello.getEntity(key);
+        assertThat(jair).isNull();
     }
 }
