@@ -64,10 +64,8 @@ public class HelloRepository {
         PreparedQuery pq = datastore.prepare(q);
         return pq.asList(FetchOptions.Builder.withDefaults());
     }
-=======
+
     public Entity getEntityException(Key key) throws EntityNotFoundException {
         return datastore.get(key);
     }
-
->>>>>>> d89f4e5d59c5590c6be9ad1086cd06966819cb5a
 }
