@@ -14,8 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class HelloRepositoryTest {
 
-    private final LocalServiceTestHelper helper =
-            new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
+    private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
     @Before
     public void setUp() {
