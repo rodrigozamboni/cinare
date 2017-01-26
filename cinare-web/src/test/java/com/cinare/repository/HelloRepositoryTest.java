@@ -9,6 +9,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class HelloRepositoryTest {
@@ -74,5 +76,31 @@ public class HelloRepositoryTest {
 
         Entity jair =  hello.getEntity(key);
         assertThat(jair).isNull();
+    }
+
+    @Test
+    public void testBuscarPorNome() {
+        HelloRepository hello = new HelloRepository();
+        hello.createNewEntity("Jair", "Bolsonaro", 50);
+        hello.createNewEntity("Pedro", "Bolsonaro", 20);
+        hello.createNewEntity("Luiz", "Veio", 30);
+        hello.createNewEntity("Jair", "Plagtzimov", 50);
+
+        List<Entity> jairs = hello.findByName("Jair");
+        assertThat(jairs).isNotNull();
+        assertThat(jairs.size()).isEqualTo(2);
+    }
+
+    @Test
+    public void testBuscarPorNomeMaiorIdade() {
+        HelloRepository hello = new HelloRepository();
+        hello.createNewEntity("Jair", "Bolsonaro", 50);
+        hello.createNewEntity("Pedro", "Bolsonaro", 20);
+        hello.createNewEntity("Luiz", "Veio", 30);
+        hello.createNewEntity("Jair", "Plagtzimov", 16);
+
+        List<Entity> jairs = hello.findByNameAndMajority("Jair");
+        assertThat(jairs).isNotNull();
+        assertThat(jairs.size()).isEqualTo(1);
     }
 }

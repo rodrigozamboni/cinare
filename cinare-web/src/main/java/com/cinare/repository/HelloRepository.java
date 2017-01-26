@@ -2,11 +2,24 @@ package com.cinare.repository;
 
 import com.google.appengine.api.datastore.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class HelloRepository {
 
     private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+
+    public Key createNewEntity(String firstName, String lastName, int age) {
+        Entity jair = new Entity("Employee");
+        jair.setIndexedProperty("firstName", firstName);
+        jair.setIndexedProperty("age", age);
+        jair.setUnindexedProperty("lastName", lastName);
+        jair.setUnindexedProperty("hireDate", new Date());
+        jair.setUnindexedProperty("attendedHrTraining", true);
+        return datastore.put(jair);
+    }
 
     public Key createNewEntity() {
         Entity jair = new Entity("Employee");
@@ -33,4 +46,21 @@ public class HelloRepository {
         }
     }
 
+    public List<Entity> findByName(String nome) {
+        Query q = new Query("Employee").setFilter(new Query.FilterPredicate("firstName", Query.FilterOperator.EQUAL, nome));
+        PreparedQuery pq = datastore.prepare(q);
+        return pq.asList(FetchOptions.Builder.withDefaults());
+    }
+
+    public List<Entity> findByNameAndMajority(String name) {
+        List<Query.Filter> filters = new ArrayList<>();
+        filters.add(new Query.FilterPredicate("firstName", Query.FilterOperator.EQUAL, name));
+        filters.add(new Query.FilterPredicate("age", Query.FilterOperator.GREATER_THAN_OR_EQUAL, 18));
+
+        Query q = new Query("Employee")
+                .setFilter(new Query.CompositeFilter(Query.CompositeFilterOperator.AND, filters));
+
+        PreparedQuery pq = datastore.prepare(q);
+        return pq.asList(FetchOptions.Builder.withDefaults());
+    }
 }
