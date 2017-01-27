@@ -10,6 +10,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 public class AddressRepositoryTest {
@@ -78,6 +80,35 @@ public class AddressRepositoryTest {
 
         Entity address = repo.getEntity(addressKey);
         assertThat(address).isNull();
+    }
+
+    @Test
+    public void testBuscaEnderecosEmployee() {
+        AddressRepository repo = new AddressRepository();
+        repo.create(parent, "Rua 01", 111, "Bairro 01", "Cidade 01", "Estado 01");
+        repo.create(parent, "Rua 02", 222, "Bairro 02", "Cidade 02", "Estado 02");
+        repo.create(parent, "Rua 03", 333, "Bairro 03", "Cidade 03", "Estado 03");
+        repo.create(parent, "Rua 04", 444, "Bairro 04", "Cidade 04", "Estado 04");
+        repo.create(parent, "Rua 05", 555, "Bairro 05", "Cidade 05", "Estado 05");
+
+        List<Entity> addresses = repo.list(parent);
+        assertThat(addresses).isNotNull();
+        assertThat(addresses.size()).isEqualTo(5);
+    }
+
+    @Test
+    public void testBuscaEnderecosRuaOfEmployee() {
+        AddressRepository repo = new AddressRepository();
+        repo.create(parent, "Rua 01", 111, "Bairro 01", "Cidade 01", "Estado 01");
+        repo.create(parent, "Rua 01", 222, "Bairro 01", "Cidade 01", "Estado 01");
+        repo.create(parent, "Rua 03", 333, "Bairro 03", "Cidade 03", "Estado 03");
+        repo.create(parent, "Rua 04", 444, "Bairro 04", "Cidade 04", "Estado 04");
+        repo.create(parent, "Rua 01", 555, "Bairro 01", "Cidade 01", "Estado 01");
+
+        List<Entity> addresses = repo.list(parent, "Rua 01");
+        assertThat(addresses).isNotNull();
+        assertThat(addresses.size()).isEqualTo(3);
+        assertThat(addresses.get(0).getProperty(AddressProperties.NUMBER.toString())).isEqualTo(555L);
     }
 
 }

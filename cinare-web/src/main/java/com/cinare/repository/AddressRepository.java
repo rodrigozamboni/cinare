@@ -2,6 +2,8 @@ package com.cinare.repository;
 
 import com.google.appengine.api.datastore.*;
 
+import java.util.List;
+
 public class AddressRepository {
 
     static final String KIND = "ADDRESS";
@@ -11,6 +13,7 @@ public class AddressRepository {
         STREET, NUMBER, NEIGHBORHOOD, CITY, STATE;
 
     }
+
     public Key create(Key parent) {
         Entity address = new Entity(KIND, parent);
         address.setIndexedProperty(AddressProperties.STREET.toString(), "Rua Aquidaban");
@@ -30,7 +33,6 @@ public class AddressRepository {
         address.setUnindexedProperty(AddressProperties.STATE.toString(), state);
         return datastore.put(address);
     }
-
     public Entity getEntity(Key addressKey) {
         try {
             return datastore.get(addressKey);
@@ -45,6 +47,21 @@ public class AddressRepository {
 
     public void delete(Key address) {
         datastore.delete(address);
+    }
+
+    public List<Entity> list(Key parent) {
+        Query q = new Query(KIND).setAncestor(parent);
+        PreparedQuery pq = datastore.prepare(q);
+        return pq.asList(FetchOptions.Builder.withDefaults());
+    }
+
+    public List<Entity> list(Key parent, String street) {
+        Query q = new Query(KIND)
+                .setAncestor(parent)
+                .setFilter(new Query.FilterPredicate(AddressProperties.STREET.toString(), Query.FilterOperator.EQUAL, street))
+                .addSort(AddressProperties.NUMBER.toString(), Query.SortDirection.DESCENDING);
+        PreparedQuery pq = datastore.prepare(q);
+        return pq.asList(FetchOptions.Builder.withDefaults());
     }
 
 }
